@@ -13,12 +13,10 @@ import java.util.UUID;
 public class Wallet {
 
     @Id
-    private UUID walletId;
+    private Long id;
+
+    private UUID walletNumber;
 
     private double balance;
 
-    public Wallet(UUID walletId, double balance) {
-        this.walletId = walletId;
-        this.balance = balance;
-    }
 }
