@@ -9,7 +9,7 @@ import com.example.walletProject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,31 +18,23 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
 
     @Override
-    public Wallet getById(Long id) {
-        return walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
-    }
-
-    @Override
-    public Optional<Double> getBalanceById(Long id) {
-        return walletRepository.findBalanceById(id);
+    public Double getWalletBalance(UUID walletId) {
+        Wallet wallet = walletRepository.findById(walletId).orElseThrow(() ->
+                new WalletNotFoundException("Wallet with ID " + walletId + " not found"));
+        return wallet.getBalance();
     }
 
 
     @Override
-    public void update(Wallet wallet) {
-        walletRepository.save(wallet);
-    }
-
-    @Override
-    public void updateWalletBalance(Long id, OperationType operationType, double amount) {
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() ->
-                new WalletNotFoundException("Wallet with ID " + id + " not found"));
+    public void updateWalletBalance(UUID walletId, OperationType operationType, double amount) {
+        Wallet wallet = walletRepository.findById(walletId).orElseThrow(() ->
+                new WalletNotFoundException("Wallet with ID " + walletId + " not found"));
 
         switch (operationType) {
             case DEPOSIT -> wallet.setBalance(wallet.getBalance() + amount);
             case WITHDRAW -> {
                 if (wallet.getBalance() < amount) {
-                    throw new InsufficientFundsException("Insufficient funds in wallet " + id);
+                    throw new InsufficientFundsException("Insufficient funds in wallet " + walletId);
                 }
                 wallet.setBalance(wallet.getBalance() - amount);
             }
