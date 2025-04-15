@@ -19,4 +19,9 @@ public class Wallet {
 
     private double balance;
 
+    public Wallet(Long id, UUID walletNumber, double balance) {
+        this.id = id;
+        this.walletNumber = walletNumber;
+        this.balance = balance;
+    }
 }

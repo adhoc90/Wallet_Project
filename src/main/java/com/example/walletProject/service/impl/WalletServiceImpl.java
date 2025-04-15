@@ -1,12 +1,13 @@
 package com.example.walletProject.service.impl;
 
+import com.example.walletProject.exception.WalletNotFoundException;
 import com.example.walletProject.model.Wallet;
 import com.example.walletProject.repository.WalletRepository;
 import com.example.walletProject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,17 +17,25 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
 
     @Override
-    public Wallet getBalanceById(Long id, double balance) {
-        return null;
+    public Wallet getById(Long id) {
+        return walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException("Wallet not found"));
     }
 
     @Override
-    public Wallet create(Wallet wallet) {
-        return null;
+    public Optional<Double> getBalanceById(Long id) {
+        return walletRepository.findBalanceById(id);
+    }
+
+
+    @Override
+    public void update(Wallet wallet) {
+        walletRepository.save(wallet);
     }
 
     @Override
-    public void setWalletNumber(Long id, UUID number) {
-
+    public void updateWalletNumber(Long id, UUID number) {
+        Wallet wallet = getById(id);
+        wallet.setWalletNumber(number);
+        update(wallet);
     }
 }
