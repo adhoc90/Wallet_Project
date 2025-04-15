@@ -1,5 +1,7 @@
 package com.example.walletProject.service.impl;
 
+import com.example.walletProject.enums.OperationType;
+import com.example.walletProject.exception.InsufficientFundsException;
 import com.example.walletProject.exception.WalletNotFoundException;
 import com.example.walletProject.model.Wallet;
 import com.example.walletProject.repository.WalletRepository;
@@ -8,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +34,19 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void updateWalletNumber(Long id, UUID number) {
-        Wallet wallet = getById(id);
-        wallet.setWalletNumber(number);
-        update(wallet);
+    public void updateWalletBalance(Long id, OperationType operationType, double amount) {
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() ->
+                new WalletNotFoundException("Wallet with ID " + id + " not found"));
+
+        switch (operationType) {
+            case DEPOSIT -> wallet.setBalance(wallet.getBalance() + amount);
+            case WITHDRAW -> {
+                if (wallet.getBalance() < amount) {
+                    throw new InsufficientFundsException("Insufficient funds in wallet " + id);
+                }
+                wallet.setBalance(wallet.getBalance() - amount);
+            }
+        }
+        walletRepository.save(wallet);
     }
 }

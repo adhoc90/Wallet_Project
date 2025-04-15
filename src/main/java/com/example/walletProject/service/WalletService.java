@@ -1,8 +1,9 @@
 package com.example.walletProject.service;
 
+import com.example.walletProject.enums.OperationType;
 import com.example.walletProject.model.Wallet;
+
 import java.util.Optional;
-import java.util.UUID;
 
 public interface WalletService {
 
@@ -13,5 +14,5 @@ public interface WalletService {
 
     void update(Wallet wallet);
 
-    void updateWalletNumber(Long id, UUID number);
+    void updateWalletBalance(Long id, OperationType operationType, double amount);
 }
