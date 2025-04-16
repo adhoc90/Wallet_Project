@@ -1,7 +1,7 @@
 package com.example.walletProject.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.example.walletProject.enums.OperationType;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +12,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Wallet {
 
-
     @Id
-    private UUID walletNumber;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID walletId;
+
+    @Enumerated(EnumType.STRING)
+    private OperationType operationType;
+
     private double balance;
 }

@@ -1,6 +1,6 @@
 package com.example.walletProject.controller;
 
-import com.example.walletProject.model.WalletTransaction;
+import com.example.walletProject.model.Wallet;
 import com.example.walletProject.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,10 @@ public class WalletController {
 
 
     @PostMapping("/wallet")
-    public ResponseEntity<Void> updateWallet(@RequestBody WalletTransaction transaction) {
-        walletService.updateWalletBalance(transaction.getWalletId(),
-                transaction.getOperationType(),
-                transaction.getAmount());
+    public ResponseEntity<Void> updateWallet(@RequestBody Wallet wallet) {
+        walletService.updateWalletBalance(wallet.getWalletId(),
+                wallet.getOperationType(),
+                wallet.getBalance());
         return ResponseEntity.ok().build();
     }
 
