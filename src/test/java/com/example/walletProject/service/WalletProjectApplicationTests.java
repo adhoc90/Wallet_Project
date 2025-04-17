@@ -1,4 +1,4 @@
-package com.example.walletProject;
+package com.example.walletProject.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,5 +9,4 @@ class WalletProjectApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

@@ -19,5 +19,6 @@ public class Wallet {
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
 
+    @Column(nullable = false)
     private double balance;
 }
