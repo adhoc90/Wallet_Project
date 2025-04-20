@@ -16,7 +16,7 @@ public class WalletController {
     private final WalletService walletService;
 
 
-    @PostMapping("/wallet")
+    @PutMapping("/wallet")
     public ResponseEntity<Void> updateWallet(@RequestBody Wallet wallet) {
         walletService.updateWalletBalance(wallet.getWalletId(),
                 wallet.getOperationType(),
@@ -28,5 +28,10 @@ public class WalletController {
     public ResponseEntity<Double> getWalletBalance(@PathVariable UUID walletId) {
         double balance = walletService.getWalletBalance(walletId);
         return ResponseEntity.ok(balance);
+    }
+
+    @PostMapping
+    public ResponseEntity<Wallet> create(@RequestBody Wallet wallet) {
+        return ResponseEntity.ok(walletService.createWallet(wallet));
     }
 }
