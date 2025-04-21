@@ -7,11 +7,13 @@ import com.example.walletProject.model.Wallet;
 import com.example.walletProject.repository.WalletRepository;
 import com.example.walletProject.service.WalletService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
 
@@ -40,5 +42,11 @@ public class WalletServiceImpl implements WalletService {
             }
         }
         walletRepository.save(wallet);
+    }
+
+    @Override
+    public Wallet createWallet(Wallet wallet) {
+        log.info("запрос на создание кошелька");
+        return walletRepository.save(wallet);
     }
 }

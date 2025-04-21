@@ -3,12 +3,14 @@ package com.example.walletProject.controller;
 import com.example.walletProject.model.Wallet;
 import com.example.walletProject.service.WalletService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class WalletController {
@@ -16,7 +18,7 @@ public class WalletController {
     private final WalletService walletService;
 
 
-    @PostMapping("/wallet")
+    @PutMapping("/wallet")
     public ResponseEntity<Void> updateWallet(@RequestBody Wallet wallet) {
         walletService.updateWalletBalance(wallet.getWalletId(),
                 wallet.getOperationType(),
@@ -28,5 +30,11 @@ public class WalletController {
     public ResponseEntity<Double> getWalletBalance(@PathVariable UUID walletId) {
         double balance = walletService.getWalletBalance(walletId);
         return ResponseEntity.ok(balance);
+    }
+
+    @PostMapping
+    public ResponseEntity<Wallet> create(@RequestBody Wallet wallet) {
+        log.info("пришёл запрос на создание");
+        return ResponseEntity.ok(walletService.createWallet(wallet));
     }
 }

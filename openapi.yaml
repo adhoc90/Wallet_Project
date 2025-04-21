@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Wallet API
+  description: API для управления кошельками
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Локальный сервер
+
+paths:
+  /wallet:
+    put:
+      tags:
+        - Wallet
+      summary: Обновление баланса кошелька
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Wallet'
+      responses:
+        '200':
+          description: Баланс успешно обновлен
+        '400':
+          description: Неверный запрос
+        '404':
+          description: Кошелек не найден
+
+    post:
+      tags:
+        - Wallet
+      summary: Создание нового кошелька
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Wallet'
+      responses:
+        '200':
+          description: Кошелек успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Неверный запрос
+
+  /wallet/{walletId}:
+    get:
+      tags:
+        - Wallet
+      summary: Получение баланса кошелька
+      parameters:
+        - name: walletId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        '200':
+          description: Баланс кошелька
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                example: 1000.50
+        '404':
+          description: Кошелек не найден
+
+components:
+  schemas:
+    Wallet:
+      type: object
+      required:
+        - walletId
+        - operationType
+        - balance
+      properties:
+        walletId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        operationType:
+          type: string
+          description: Тип операции (например, DEPOSIT/WITHDRAW)
+          example: "DEPOSIT"
+        balance:
+          type: number
+          format: double
+          description: Сумма операции или текущий баланс
+          example: 1000.50
