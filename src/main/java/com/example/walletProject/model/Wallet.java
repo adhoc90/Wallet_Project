@@ -13,8 +13,7 @@ import java.util.UUID;
 public class Wallet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID walletId;
+    private UUID walletId = UUID.randomUUID();
 
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
