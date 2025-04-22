@@ -32,7 +32,7 @@ public class WalletController {
         return ResponseEntity.ok(balance);
     }
 
-    @PostMapping
+    @PostMapping("/wallet")
     public ResponseEntity<Wallet> create(@RequestBody Wallet wallet) {
         log.info("пришёл запрос на создание");
         return ResponseEntity.ok(walletService.createWallet(wallet));
